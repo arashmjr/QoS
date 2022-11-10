@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 import factory
+from django.utils import timezone
 from src.apps.reminders.models import Reminder
 from src.utils.fakers.user import UserFactory
 
@@ -9,5 +12,5 @@ class ReminderFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory)
     title = factory.Faker("name")
-    reminder_time = factory.Faker("date_time")
-    threshold = factory.Faker("date_time")
+    reminder_time = timezone.now() + timedelta(days=5)
+    threshold = timezone.now() + timedelta(days=3)
