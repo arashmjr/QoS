@@ -11,14 +11,13 @@ class GetReminderSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "title",
-            "user",
             "message",
             "image",
             "reminder_time",
             "threshold",
             "repeat_interval",
             "created_at",
-            "upadted_at",
+            "updated_at",
         )
 
     def get_image(self, obj):
