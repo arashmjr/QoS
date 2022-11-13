@@ -16,6 +16,8 @@ class GetReminderSerializer(serializers.ModelSerializer):
             "reminder_time",
             "threshold",
             "repeat_interval",
+            "is active",
+            "alert_count",
             "created_at",
             "updated_at",
         )

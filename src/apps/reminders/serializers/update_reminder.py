@@ -12,4 +12,6 @@ class UpdateReminderSerializer(serializers.ModelSerializer):
             "reminder_time",
             "threshold",
             "repeat_interval",
+            "alert_count",
+            "is_active",
         )
