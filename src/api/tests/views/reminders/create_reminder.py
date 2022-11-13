@@ -1,4 +1,4 @@
-import json
+import uuid
 from datetime import timedelta
 
 from django.test import LiveServerTestCase
@@ -15,7 +15,7 @@ class CreateReminderAPIViewTestCase(LiveServerTestCase):
 
     def make_request(self, data=None):
         return self.rc.post(
-            "http://testserver/api/V0.0.0/reminders/create-reminder/",
+            "http://testserver/api/V0.0.0/reminders/",
             json=data,
         )
 
@@ -33,6 +33,7 @@ class CreateReminderAPIViewTestCase(LiveServerTestCase):
 
         post_bad_request(
             error_type=[
+                SerializerErrors.CreateReminderSerializer.errors.get("title"),
                 SerializerErrors.CreateReminderSerializer.errors.get("user"),
                 SerializerErrors.CreateReminderSerializer.errors.get(
                     "reminder_time"
@@ -42,9 +43,11 @@ class CreateReminderAPIViewTestCase(LiveServerTestCase):
                 ),
             ],
             data={
-                "user": None,
-                "reminder_time": "invalid",
-                "threshold": "invalid",
+                "title": False,
+                "user": str(uuid.uuid4()),
+                # "user": str(self.user.id),
+                "reminder_time": str(timezone.now() - timedelta(days=2)),
+                "threshold": str(timezone.now() - timedelta(days=3)),
             },
         )
 
@@ -52,14 +55,8 @@ class CreateReminderAPIViewTestCase(LiveServerTestCase):
         data = {
             "title": "test",
             "user": str(self.user.id),
-            "reminder_time": json.dumps(
-                timezone.now() + timedelta(days=5),
-                default=str,
-            ),
-            "threshold": json.dumps(
-                timezone.now() + timedelta(days=3),
-                default=str,
-            ),
+            "reminder_time": str(timezone.now() + timedelta(days=5)),
+            "threshold": str(timezone.now() + timedelta(days=3)),
         }
 
         response = self.make_request(data=data)
