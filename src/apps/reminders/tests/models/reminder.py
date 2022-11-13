@@ -15,18 +15,8 @@ class ReminderModelTestCase(TestCase):
     def test_clean_method(self):
         with self.assertRaises(ValidationError):
             ReminderFactory(
-                reminder_time=timezone.now() - timedelta(days=5),
-                threshold=timezone.now() + timedelta(minutes=5),
-            )
-        with self.assertRaises(ValidationError):
-            ReminderFactory(
                 reminder_time=timezone.now() + timedelta(days=5),
                 threshold=timezone.now() + timedelta(days=10),
-            )
-        with self.assertRaises(ValidationError):
-            ReminderFactory(
-                reminder_time=timezone.now() + timedelta(days=5),
-                threshold=timezone.now() - timedelta(days=5),
             )
 
     def test_reminder_str_method(self):
