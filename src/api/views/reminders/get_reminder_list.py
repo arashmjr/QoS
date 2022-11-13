@@ -20,7 +20,7 @@ class GetReminderListAPIView(APIView):
                 error_type=[ErrorEnum.Reminder.INVALID_LIMIT_AND_OFFSET],
             )
         data = get_reminders_by_user_id(
-            limit=limit, offset=offset, request=self.request, user_id=user_id
+            limit=limit, offset=offset, user_id=user_id
         )
         if data is None:
             raise NotFoundException(
