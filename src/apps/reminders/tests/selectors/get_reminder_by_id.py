@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.utils import timezone
+from src.apps.reminders.models import Reminder
 from src.apps.reminders.selectors import get_reminder_by_id
 from src.utils.fakers import ReminderFactory
 
