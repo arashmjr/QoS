@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,10 +40,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_crontab",
     "rest_framework",
     "src.apps.accounts",
     "src.apps.reminders",
     "src.apps.storage",
+]
+
+CRONJOBS = [
+    (
+        "*/1 * * * *",
+        "src.apps.reminders.commands.cron.trigger_active_reminders",
+    )
 ]
 
 AUTH_USER_MODEL = "accounts.User"
