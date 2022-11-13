@@ -45,7 +45,6 @@ class CreateReminderAPIViewTestCase(LiveServerTestCase):
             data={
                 "title": False,
                 "user": str(uuid.uuid4()),
-                # "user": str(self.user.id),
                 "reminder_time": str(timezone.now() - timedelta(days=2)),
                 "threshold": str(timezone.now() - timedelta(days=3)),
             },
