@@ -1,5 +1,3 @@
-import json
-
 from django.test import LiveServerTestCase
 from rest_framework.test import RequestsClient
 from src.apps.reminders.services import get_reminder_by_id
@@ -53,14 +51,8 @@ class UpdateReminderViewTestCase(LiveServerTestCase):
         valid_data = {
             "title": "valid",
             "message": "sample text",
-            "reminder_time": json.dumps(
-                self.updated_reminder.reminder_time,
-                default=str,
-            ),
-            "threshold": json.dumps(
-                self.updated_reminder.threshold,
-                default=str,
-            ),
+            "reminder_time": str(self.updated_reminder.reminder_time),
+            "threshold": str(self.updated_reminder.threshold),
         }
         headers = {}
         reminder_id = str(self.reminder.id)
