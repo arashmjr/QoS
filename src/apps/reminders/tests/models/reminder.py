@@ -18,6 +18,11 @@ class ReminderModelTestCase(TestCase):
                 reminder_time=timezone.now() + timedelta(days=5),
                 threshold=timezone.now() + timedelta(days=10),
             )
+        with self.assertRaises(ValidationError):
+            ReminderFactory(
+                alert_count=2,
+                is_active=True,
+            )
 
     def test_reminder_str_method(self):
 

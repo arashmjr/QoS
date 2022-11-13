@@ -79,6 +79,12 @@ class Reminder(models.Model):
                     "threshold should be less than reminder time, please enter correct threshold"
                 ),
             )
+        if self.alert_count == 2 and self.is_active == True:
+            raise ValidationError(
+                _(
+                    "alert count amount for activating reminder could not be two"
+                )
+            )
 
     def save(self, *args, **kwargs):
         self.full_clean()
