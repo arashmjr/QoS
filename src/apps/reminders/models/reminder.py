@@ -7,6 +7,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Reminder(models.Model):
+    class AlertCount(models.IntegerChoices):
+        ZERO = 0
+        FIRST = 1
+        SECOND = 2
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(
         "accounts.User",
@@ -34,17 +39,30 @@ class Reminder(models.Model):
     threshold = models.DateTimeField(
         verbose_name=_("remind before"),
     )
+
+    alert_count = models.IntegerField(
+        choices=AlertCount.choices,
+        default=AlertCount.ZERO,
+        verbose_name=_("alert count"),
+    )
+
     REPEAT_CHOICES = (
         ("DONT_REPEAT", _("dont repeat")),
         ("DAILY", _("daily")),
         ("MONTHLY", _("monthly")),
     )
+
     repeat_interval = models.CharField(
         verbose_name=_("repeat interval"),
         max_length=20,
         choices=REPEAT_CHOICES,
         null=True,
         blank=True,
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("is active"),
     )
 
     created_at = models.DateField(
@@ -55,19 +73,10 @@ class Reminder(models.Model):
 
     def clean(self):
         super(Reminder, self).clean()
-
-        if self.reminder_time <= timezone.now():
-            raise ValidationError(
-                _("please set reminder for upcoming time"),
-            )
-
-        if (
-            self.threshold >= self.reminder_time
-            or self.threshold <= timezone.now()
-        ):
+        if self.threshold >= self.reminder_time:
             raise ValidationError(
                 _(
-                    "threshold should be less than reminder time and greater than now, please enter correct threshold"
+                    "threshold should be less than reminder time, please enter correct threshold"
                 ),
             )
 
