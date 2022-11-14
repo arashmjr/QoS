@@ -121,6 +121,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",
     ],
+    "EXCEPTION_HANDLER": "src.api.exception_handler.api_exception_handler",
 }
 # END RESTFARMEWORK CONFIGURATION
 
