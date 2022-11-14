@@ -13,15 +13,16 @@ class CreateReminderAPIViewTestCase(LiveServerTestCase):
         self.rc = RequestsClient()
         self.user = UserFactory()
 
-    def make_request(self, data=None):
+    def make_request(self, data=None, headers=None):
         return self.rc.post(
             "http://testserver/api/V0.0.0/reminders/",
             json=data,
+            headers=headers,
         )
 
     def test_bad_request_response(self):
-        def post_bad_request(error_type, data=None):
-            response = self.make_request(data=data)
+        def post_bad_request(error_type, data=None, headers=None):
+            response = self.make_request(data=data, headers=headers)
             self.assertEqual(response.status_code, 400)
             error_set = set(error_type)
             data_error = response.json().get("error_type")
@@ -44,10 +45,11 @@ class CreateReminderAPIViewTestCase(LiveServerTestCase):
             ],
             data={
                 "title": False,
-                "user": str(uuid.uuid4()),
-                "reminder_time": str(timezone.now() - timedelta(days=2)),
-                "threshold": str(timezone.now() - timedelta(days=3)),
+                "user": False,
+                "reminder_time": "invalid",
+                "threshold": "invalid",
             },
+            headers={},
         )
 
     def test_created_response(self):
