@@ -10,11 +10,25 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import os
+from os import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# GET ENV UTIL
+def get_env(key, default=None, optinal=False):
+    """Return environment variables with some options."""
+    val = environ.get(key)
+    if val is not None:
+        return val
+    elif default is not None:
+        return default
+    elif not optinal:
+        raise ValueError(f"Environment variable {key} was not defined")
+
+
+# END GET ENV UTIL
 
 
 # Quick-start development settings - unsuitable for production
@@ -47,13 +61,6 @@ INSTALLED_APPS = [
     "src.apps.storage",
 ]
 
-CRONJOBS = [
-    (
-        "*/1 * * * *",
-        "src.apps.reminders.commands.cron.trigger_active_reminders",
-    )
-]
-
 AUTH_USER_MODEL = "accounts.User"
 
 MIDDLEWARE = [
@@ -66,7 +73,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "back.urls"
+ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
     {
@@ -84,18 +91,24 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "back.wsgi.application"
+WSGI_APPLICATION = "core.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASE CONFIGURATION
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": get_env("DEFAULT_DATABASE_NAME"),
+        "USER": get_env("DEFAULT_DATABASE_USER"),
+        "PASSWORD": get_env("DEFAULT_DATABASE_PASSWORD"),
+        "HOST": get_env("DEFAULT_DATABASE_HOST"),
+        "PORT": get_env("DEFAULT_DATABASE_PORT"),
     }
 }
+# END DATABASE CONFIGURATION
 
 
 # Password validation
@@ -124,7 +137,6 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "src.api.exception_handler.api_exception_handler",
 }
 # END RESTFARMEWORK CONFIGURATION
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
