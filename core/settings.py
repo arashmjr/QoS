@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     "django_crontab",
     "rest_framework",
     "src.apps.accounts",
-    "src.apps.reminders",
     "src.apps.storage",
 ]
 
@@ -101,11 +100,11 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": get_env("DEFAULT_DATABASE_NAME"),
-        "USER": get_env("DEFAULT_DATABASE_USER"),
-        "PASSWORD": get_env("DEFAULT_DATABASE_PASSWORD"),
-        "HOST": get_env("DEFAULT_DATABASE_HOST"),
-        "PORT": get_env("DEFAULT_DATABASE_PORT"),
+        "NAME": "bidar_new",
+        "USER": "postgres",
+        "PASSWORD": "1234",
+        "HOST": "localhost",
+        "PORT": "5433",
     }
 }
 # END DATABASE CONFIGURATION
