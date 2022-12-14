@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "django_crontab",
     "rest_framework",
     "src.apps.accounts",
-    "src.apps.storage",
+    "src.apps.website",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
