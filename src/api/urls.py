@@ -1,11 +1,12 @@
 from django.urls import include, path
+from src.api.views.website import UploadFileAPIView
 
-accounts_url_patterns = [
-
+website_url_patterns = [
+    path("upload-csv/", UploadFileAPIView.as_view(), name="upload_csv"),
 ]
 
 V_0_0_0_urlpatterns = [
-    
+    path("website/", include(website_url_patterns)),
 ]
 
 urlpatterns = [
