@@ -56,11 +56,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_crontab",
     "rest_framework",
-    "src.apps.accounts",
     "src.apps.website",
+    "django_extensions",
 ]
 
-AUTH_USER_MODEL = "accounts.User"
+# AUTH_USER_MODEL = "accounts.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
