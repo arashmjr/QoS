@@ -40,9 +40,9 @@ SECRET_KEY = (
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -103,7 +103,8 @@ DATABASES = {
         "NAME": "bidar_new",
         "USER": "postgres",
         "PASSWORD": "1234",
-        "HOST": "localhost",
+        # "HOST": "localhost",
+        "HOST": "postgres",
         "PORT": "5433",
     }
 }
