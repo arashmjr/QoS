@@ -4,7 +4,7 @@ import pika
 def sender(web_urls):
 
     connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host="localhost")
+        pika.ConnectionParameters(host="185.130.78.42")
     )
     channel = connection.channel()
     channel.queue_declare(queue="task_queue", durable=True)
