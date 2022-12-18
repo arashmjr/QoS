@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  backend:
+    build: .
+    command: sh -c "python manage.py migrate && gunicorn core.wsgi -b 0.0.0.0:8000"
+    container_name: backend
+    ports:
+      - "8000:8000"
+    networks:
+      - main
+    restart: always
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=bidar_new
+
+    ports:
+      - "5433:5433"
+
+  nginx:
+    container_name: nginx
+    command: nginx -g "daemon off;"
+    image: nginx:latest
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    restart: always
+    # copy data of nginx.conf file to config of nginx on container
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - main
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+networks:
+  main:
