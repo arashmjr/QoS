@@ -1,6 +1,6 @@
 version: "3.3"
 services:
-  
+
   postgres:
     container_name: back_postgres
     image: postgres:latest
@@ -14,8 +14,11 @@ services:
 
   backend:
     build: .
-    command: sh -c "python manage.py migrate && gunicorn core.wsgi -b 0.0.0.0:8000"
-    # command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    # command: sh -c "python manage.py migrate && gunicorn core.wsgi -b 0.0.0.0:8000"
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     container_name: backend
     ports:
       - "8000:8000"
