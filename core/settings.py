@@ -100,12 +100,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "bidar_new",
+        "NAME": "back_postgres",
         "USER": "postgres",
         "PASSWORD": "1234",
-        # "HOST": "localhost",
-        "HOST": "postgres",
-        "PORT": "5433",
+        "HOST": "localhost",
+        # "HOST": "postgres",
+        "PORT": "5432",
     }
 }
 # END DATABASE CONFIGURATION

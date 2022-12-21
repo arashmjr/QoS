@@ -1,8 +1,21 @@
-version: "3.9"
+version: "3.3"
 services:
+  
+  postgres:
+    container_name: back_postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=back_postgres
+
+    ports:
+      - "5432:5432"
+
   backend:
     build: .
     command: sh -c "python manage.py migrate && gunicorn core.wsgi -b 0.0.0.0:8000"
+    # command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     container_name: backend
     ports:
       - "8000:8000"
@@ -11,16 +24,13 @@ services:
     restart: always
     depends_on:
       - postgres
-
-  postgres:
-    image: postgres:latest
+    links:
+      - postgres:postgres
     environment:
-      - POSTGRES_PASSWORD=1234
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=bidar_new
-
-    ports:
-      - "5433:5433"
+      - DB_HOST=postgres
+      - DB_NAME=back_postgres
+      - DB_USER=postgres
+      - DB_PASS=1234
 
   nginx:
     container_name: nginx

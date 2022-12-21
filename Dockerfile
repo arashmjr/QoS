@@ -41,14 +41,26 @@ ENV code=/usr/src/app
 # RUN mkdir /code
 
 # install psycopg2 dependencies
-RUN apk update \
-    && apk add libcurl curl-dev python3-dev libc-dev postgresql-dev build-base gcc python3-dev musl-dev libffi-dev \
-    py3-pillow freetype-dev libpng-dev openblas-dev g++ \
-    jpeg-dev zlib-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev libxslt-dev
+# RUN apk update \
+#     && apk add libcurl curl-dev python3-dev libc-dev postgresql-dev build-base gcc python3-dev musl-dev libffi-dev \
+#     py3-pillow freetype-dev libpng-dev openblas-dev g++ \
+#     jpeg-dev zlib-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev libxslt-dev
 
 WORKDIR /code
+
+RUN pip install --upgrade pip
+
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY . /code/
+
+RUN python -m venv /py && \
+    /py/bin/pip install --upgrade pip && \
+    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-deps \
+        build-base postgresql-dev musl-dev && \
+    /py/bin/pip install -r /requirements.txt && \
+    apk del .tmp-deps && \
+    adduser --disabled-password --no-create-home app
 
 CMD ["gunicorn", "core.wsgi", ":8000"]
