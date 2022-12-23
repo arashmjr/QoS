@@ -10,7 +10,7 @@ class TestDelayFromQueueItems(APIView):
         web_urls = get_list_urls()
         sender(web_urls=web_urls)
         try:
-            receiver(host="185.130.78.42", count_obj=len(web_urls))
+            receiver(host="localhost", count_obj=len(web_urls))
         except:
             return Response(
                 data={
