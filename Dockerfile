@@ -49,20 +49,16 @@ RUN apk update \
 
 RUN mkdir $APP_HOME
 # copy entrypoint-prod.sh
-COPY ./build/entrypoint.sh $APP_HOME
+COPY entrypoint.sh $APP_HOME
 
-COPY ./requirements/production.txt .
-RUN pip install -r production.txt
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 WORKDIR $APP_HOME
 
 # copy project
 COPY ./src $APP_HOME/src
-COPY ./settings $APP_HOME/settings
-# COPY ./certs $APP_HOME/certs
 COPY ./manage.py $APP_HOME
-COPY ./fixtures $APP_HOME/fixtures
 COPY ./core $APP_HOME/core
-# COPY ./locale $APP_HOME/locale
 RUN addgroup -S app && adduser -S app -G app
 
 # chown all the files to the app user
