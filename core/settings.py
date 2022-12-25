@@ -54,10 +54,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_crontab",
     "rest_framework",
     "src.apps.website",
-    "django_extensions",
 ]
 
 # AUTH_USER_MODEL = "accounts.User"
@@ -103,8 +101,8 @@ DATABASES = {
         "NAME": "back_postgres",
         "USER": "postgres",
         "PASSWORD": "1234",
-        "HOST": "localhost",
-        # "HOST": "postgres",
+        # "HOST": "localhost",
+        "HOST": "db",
         "PORT": "5432",
     }
 }
