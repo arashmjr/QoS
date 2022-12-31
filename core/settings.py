@@ -101,8 +101,8 @@ DATABASES = {
         "NAME": "back_postgres",
         "USER": "postgres",
         "PASSWORD": "1234",
-        # "HOST": "localhost",
-        "HOST": "db",
+        "HOST": "localhost",
+        # "HOST": "db",
         "PORT": "5432",
     }
 }
