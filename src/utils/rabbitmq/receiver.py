@@ -1,7 +1,7 @@
 import sys
 
 import pika
-import requests
+from src.apps.website.services import calculate_delay_service
 
 
 def receiver(host, count_obj):
@@ -11,16 +11,12 @@ def receiver(host, count_obj):
     print("waiting for message, to exit ctrl+c")
 
     def callback(ch, method, properties, body):
+        calculate_delay_service(host=body.decode())
 
-        url = "http://localhost:8000/api/V0.0.0/website/calculate-delay/"
-        headers = {"Content-type": "application/json"}
-        response = requests.put(
-            url=url,
-            json=body.decode(),
-            headers=headers,
-        )
         if method.delivery_tag == count_obj:
-            sys.exit()
+            # sys.exit()
+            ch2.close()
+            return
 
     ch2.basic_qos(prefetch_count=1)
     ch2.basic_consume(
